@@ -1,0 +1,87 @@
+# =====================================
+# Axmol Engine - Build Artifacts
+# =====================================
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+*.cmake
+
+# Build output
+build/
+bin/
+lib/
+obj/
+Debug/
+Release/
+*.app
+*.dSYM
+*.ipa
+
+# Generated assets
+*.tmp
+*.log
+.cache/
+
+# =====================================
+# Xcode
+# =====================================
+
+# Workspace user data
+*.xcworkspace
+*.xcworkspace/xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+
+# Per-user project data
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Derived data
+DerivedData/
+
+# Xcode auto generated schemes
+xcuserdata/
+*.xcscheme
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# =====================================
+# macOS
+# =====================================
+
+.DS_Store
+
+# =====================================
+# Compiled Files
+# =====================================
+
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.gch
+*.pch
+
+# =====================================
+# VSCode / CLion (nếu có mở chung)
+# =====================================
+
+.vscode/
+.idea/
+
+# =====================================
+# Logs
+# =====================================
+
+*.log
