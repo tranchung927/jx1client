@@ -9,6 +9,7 @@
 // #include "KWin32.h"
 #include "KFilePath.h"
 #include "KFile.h"
+#include "KbugInfo.h"
 //---------------------------------------------------------------------------
 // ����:	KFile
 // ����:	���캯��
