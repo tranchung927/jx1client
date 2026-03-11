@@ -2198,7 +2198,7 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				if (nParam<=0 || nParam>=MAX_NPC) break;
 				unsigned int dwid = Npc[nParam].m_dwID;
 				g_cSellItem.ApplyViewItem(dwid);
-				//messageBox(Npc[nParam].Name,"看摊");
+				//showAlert(Npc[nParam].Name,"看摊");
 			}
 		}
 		break;
@@ -2760,10 +2760,10 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 			if (pItem==NULL)
 			{
 #ifdef WIN32
-				messageBox("物品数据有误,请联系GM处理!","提示");
+				showAlert("物品数据有误,请联系GM处理!","提示");
 				//Player[CLIENT_PLAYER_INDEX].m_ItemList.ClientShowMsg("提示:物品数据有误,请联系GM处理!");
 #else
-				messageBox(UTEXT("物品数据有误,请联系GM处理!",1).c_str(),UTEXT("提示",1).c_str());
+				showAlert(UTEXT("物品数据有误,请联系GM处理!",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 				break;
 			}
@@ -2776,9 +2776,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 			{//查找位置
 				nRet = 0;
 #ifdef WIN32
-				messageBox("包袱空间不足!","提示");;
+				showAlert("包袱空间不足!","提示");;
 #else
-				messageBox(UTEXT("包袱空间不足!",1).c_str(),UTEXT("提示",1).c_str());
+				showAlert(UTEXT("包袱空间不足!",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 				break;
 			}
@@ -2786,9 +2786,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 			{
 				nRet = 0;
 #ifdef WIN32
-				messageBox("包袱空间不足!","提示");;
+				showAlert("包袱空间不足!","提示");;
 #else
-				messageBox(UTEXT("包袱空间不足!",1).c_str(),UTEXT("提示",1).c_str());
+				showAlert(UTEXT("包袱空间不足!",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 				break;
 			}
@@ -2801,9 +2801,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				if (!pItem->IsStack())
 				{
 #ifdef WIN32
-					messageBox("该物品不能批量购买!","提示");;
+					showAlert("该物品不能批量购买!","提示");;
 #else
-					messageBox(UTEXT("该物品不能批量购买!",1).c_str(),UTEXT("提示",1).c_str());
+					showAlert(UTEXT("该物品不能批量购买!",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 					break;
 				}
@@ -2839,7 +2839,7 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				}
 				else if (nSellModel == moneyunit_jifen)
 				{//积分	   Player[nPlayerIdx].GetExtPoint()
-					//messageBox("积分购买","test");
+					//showAlert("积分购买","test");
 					if  (Player[CLIENT_PLAYER_INDEX].m_cTask.GetSaveVal(192)< nPrice*nBei)
 						break;
 				}
@@ -2969,9 +2969,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 					else
 					{
 #ifdef WIN32
-						messageBox("任务/限时/绑定物品不能买卖!","提示:");
+						showAlert("任务/限时/绑定物品不能买卖!","提示:");
 #else
-						messageBox(UTEXT("任务/限时/绑定物品不能买卖!",1).c_str(),UTEXT("提示:",1).c_str());
+						showAlert(UTEXT("任务/限时/绑定物品不能买卖!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 						return 0;
 					}
@@ -2980,9 +2980,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				if (Item[nIdx].GetIsBang())
 				{
 #ifdef WIN32
-					messageBox("任务/限时/绑定物品不能买卖!","提示:");
+					showAlert("任务/限时/绑定物品不能买卖!","提示:");
 #else
-					messageBox(UTEXT("任务/限时/绑定物品不能买卖!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("任务/限时/绑定物品不能买卖!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					return 0;
 				}
@@ -3009,18 +3009,18 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				if (Item[nIdx].GetGenre() != item_equip)
 				{//如果不是装备的 不能修理
 #ifdef WIN32
-					messageBox("该物品不能修理!","提示:");
+					showAlert("该物品不能修理!","提示:");
 #else
-					messageBox(UTEXT("该物品不能修理!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("该物品不能修理!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					return 0;
 				}
 				else if (Item[nIdx].GetDurability() == -1 || Item[nIdx].GetDurability() == Item[nIdx].GetMaxDurability())
 				{//永不磨损 或 持久 是满的 不需要修理
 #ifdef WIN32
-					messageBox("该物品无需修理!","提示:");
+					showAlert("该物品无需修理!","提示:");
 #else
-					messageBox(UTEXT("该物品无需修理!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("该物品无需修理!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					return 0;
 				}
@@ -3031,9 +3031,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				else
 				{
 #ifdef WIN32
-					 messageBox("银两不足,不能修理!","提示:");
+					 showAlert("银两不足,不能修理!","提示:");
 #else
-					messageBox(UTEXT("银两不足,不能修理!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("银两不足,不能修理!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					return 0;
 				}
@@ -3063,9 +3063,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 				if (Player[CLIENT_PLAYER_INDEX].m_ItemList.Hand())
 				{
 #ifdef WIN32
-					messageBox("拆分:手上有东西,拆分失败!","提示:");
+					showAlert("拆分:手上有东西,拆分失败!","提示:");
 #else
-					messageBox(UTEXT("拆分:手上有东西,拆分失败!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("拆分:手上有东西,拆分失败!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					nRet = 0;
 					break;
@@ -3078,9 +3078,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 					if (ncount<nParam)
 					{
 #ifdef WIN32
-						messageBox("包袱没有足够的空间!","提示:");
+						showAlert("包袱没有足够的空间!","提示:");
 #else
-						messageBox(UTEXT("包袱没有足够的空间!",1).c_str(),UTEXT("提示:",1).c_str());
+						showAlert(UTEXT("包袱没有足够的空间!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 						nRet = 0;
 						break;
@@ -3106,9 +3106,9 @@ int	KCoreShell::OperationRequest(unsigned int uOper, uintptr_t uParam, int nPara
 					CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (uintptr_t)&sMsg, 0);
 					*/
 #ifdef WIN32
-					messageBox("提示:拆分失败或该物品没有叠加!","提示:");
+					showAlert("提示:拆分失败或该物品没有叠加!","提示:");
 #else
-					messageBox(UTEXT("提示:拆分失败或该物品没有叠加!",1).c_str(),UTEXT("提示:",1).c_str());
+					showAlert(UTEXT("提示:拆分失败或该物品没有叠加!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 					return 0;
 				}
@@ -3471,7 +3471,7 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 
 	if (Npc[nIndex].m_ActiveSkillID > 0)
 	{
-		//messageBox("开始攻击","test");
+		//showAlert("开始攻击","test");
 		ISkill * pISkill =  g_SkillManager.GetSkill(Npc[nIndex].m_ActiveSkillID, 1);
 		if (!pISkill)
             return 0;
@@ -3535,7 +3535,7 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 
 		if (nIndex == nTargetIdx)
 		{//等于自己
-			//messageBox("不成功-自己","skill");
+			//showAlert("不成功-自己","skill");
 			Player[CLIENT_PLAYER_INDEX].m_ItemList.ClientShowMsg("不成功-自己");
 			Npc[nIndex].m_nPeopleIdx = 0;
 			Player[CLIENT_PLAYER_INDEX].SetTargetNpc(0);
@@ -3547,7 +3547,7 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 		   if ((!Npc[nIndex].m_SkillList.CanCastByIndex(Npc[nIndex].m_ActiveSkListIndex, SubWorld[Npc[nIndex].m_SubWorldIndex].m_dwCurrentTime))
 			   ||(!Npc[nIndex].Cost(pISkill->GetSkillCostType(), pISkill->GetSkillCost(&Npc[nIndex]), TRUE)))
 		   {
-			//messageBox("不成功-时间","skill");
+			//showAlert("不成功-时间","skill");
 			  Npc[nIndex].m_nPeopleIdx = 0;
 			  Player[CLIENT_PLAYER_INDEX].SetTargetNpc(0);
 			  return 0;
@@ -3577,7 +3577,7 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 		//无对象，直接发坐标
 		/*if (!nTargetIdx)
 		{
-			//messageBox("不成功-没对象","skill");
+			//showAlert("不成功-没对象","skill");
 			if (pISkill->IsTargetSelf())
 			{
 				Npc[nIndex].m_nPeopleIdx = 0;
@@ -3601,7 +3601,7 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 				int distance = NpcSet.GetDistance(nIndex , nTargetIdx);
 				if (distance > pISkill->GetAttackRadius())
 				{
-					//messageBox("不成功-范围","skill");
+					//showAlert("不成功-范围","skill");
 					Player[CLIENT_PLAYER_INDEX].SetTargetNpc(nTargetIdx);
 					return 0;
 				}
@@ -3609,11 +3609,11 @@ int KCoreShell::UseSkill(int x, int y, int nSkillID,int m_Kind)
 			// 自己 并使子弹技能
 			if (nIndex == nTargetIdx && pISkill->GetSkillStyle() == SKILL_SS_Missles)
 			{
-				//messageBox("不成功-自己子弹","skill");
+				//showAlert("不成功-自己子弹","skill");
 				Player[CLIENT_PLAYER_INDEX].m_ItemList.ClientShowMsg("不成功-自己-子弹");
 				return 0;
 			}
-			//messageBox("不成功-正常","skill");
+			//showAlert("不成功-正常","skill");
 			Npc[nIndex].SendSerCommand(do_skill, Npc[nIndex].m_ActiveSkillID, -1, nTargetIdx);
 			// Send to Server
 			SendClientCmdSkill(Npc[nIndex].m_ActiveSkillID, -1, Npc[nTargetIdx].m_dwID);

@@ -784,7 +784,7 @@ int KItemList::Init(int nPlayerIdx)
 	{
 		m_FreeIdxItemList.Insert(i);
 	}
-	//messageBox("增加包袱空间成功","增加包袱空间成功");
+	//showAlert("增加包袱空间成功","增加包袱空间成功");
 	return TRUE;
 }
 
@@ -2215,9 +2215,9 @@ int KItemList::EatMecidineS(int nIdx,int nx,int nY)
 		if (!Npc[Player[m_PlayerIdx].m_nIndex].m_FightMode)
 		{// || Npc[Player[m_PlayerIdx].m_nIndex].m_AutoplayId>0
 #ifdef WIN32
-			messageBox("挂机/非战斗模式,不能回城!","提示:");
+			showAlert("挂机/非战斗模式,不能回城!","提示:");
 #else
-			messageBox(UTEXT("挂机/非战斗模式,不能回城!",1).c_str(),UTEXT("提示:",1).c_str());
+			showAlert(UTEXT("挂机/非战斗模式,不能回城!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 			return FALSE;
 		}
@@ -2235,9 +2235,9 @@ int KItemList::EatMecidineS(int nIdx,int nx,int nY)
        if (Item[nIdx].GetStackNum() > 1 && mprg==0)  //是否可以叠加使用
 	   {
 #ifdef WIN32
-		   messageBox("提示:物品叠加,不能使用!","提示:");
+		   showAlert("提示:物品叠加,不能使用!","提示:");
 #else
-		   messageBox(UTEXT("提示:物品叠加,不能使用!",1).c_str(),UTEXT("提示:",1).c_str());
+		   showAlert(UTEXT("提示:物品叠加,不能使用!",1).c_str(),UTEXT("提示:",1).c_str());
 #endif
 		   return FALSE;
 	   }
@@ -2270,9 +2270,9 @@ int KItemList::AutoChangeItem(int nIdx)
 	if (!CheckCanPlaceInEquipment(nItemWith,nItemHigth, &x, &y))
 	{
 #ifdef WIN32
-		messageBox("包袱空间不足","提示");
+		showAlert("包袱空间不足","提示");
 #else
-		messageBox(UTEXT("包袱空间不足",1).c_str(),UTEXT("提示",1).c_str());
+		showAlert(UTEXT("包袱空间不足",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 		return false;
 	}
@@ -2366,9 +2366,9 @@ int KItemList::UseItem(int nIdx,int cnx,int cny)
 			else
 			{//不能装备该装备
 #ifdef WIN32
-				messageBox("该装备不满足换装条件","提示:");
+				showAlert("该装备不满足换装条件","提示:");
 #else
-				messageBox(UTEXT("该装备不满足换装条件",1).c_str(),UTEXT("提示",1).c_str());
+				showAlert(UTEXT("该装备不满足换装条件",1).c_str(),UTEXT("提示",1).c_str());
 #endif
 			}
 
@@ -4492,7 +4492,7 @@ int	KItemList::AutoMoveItem(ItemPos SrcPos,ItemPos DesPos,unsigned int nItemdwID
 //客户端显示公告消息
 void	KItemList::ClientShowMsg(const char *Msg)
 {
-	// messageBox(Msg,"ClientShowMsg");
+	// showAlert(Msg,"ClientShowMsg");
 	KSystemMessage	sMsg;
 	ZeroMemory(&sMsg,sizeof(sMsg));
 	sMsg.byConfirmType = SMCT_NONE;

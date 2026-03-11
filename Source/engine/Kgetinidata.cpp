@@ -147,14 +147,14 @@ bool Kgetinidata::ReadFileData(char *nFileName,int nFrameIndex)
 		 }
 		 else
 		 {
-			 messageBox("pSprHeader is NULL","error");
+			 showAlert("pSprHeader is NULL","error");
 			 return false;
 		 }
 
 		 if (nFrameData==NULL)
 		 {
 		    SprReleaseHeader(pSprHeader);
-			messageBox("FrameFiledata is NULL","error");
+			showAlert("FrameFiledata is NULL","error");
 			return false;
 		 }
 
@@ -187,7 +187,7 @@ bool Kgetinidata::ReadFileData(char *nFileName,int nFrameIndex)
 
 	if (!data)
 	{
-		messageBox("ReadFiledata is NULL","error");
+		showAlert("ReadFiledata is NULL","error");
 		return false;
 	}
 
@@ -334,13 +334,13 @@ Texture2D *Kgetinidata::getinidata_one(char *nFileName,int nFrameIndex,int *mCur
 	pSprHeader = (SPRHEAD*)m_ImageStore.GetImage(nFileName,nfleddwid,nImagePosition,nFrameIndex,ISI_T_SPR,(void*&)pFrameData,(void*&)pOffsTable,bSingleFrameLoad,nSingFrameSize);
 	if (pSprHeader == NULL || pFrameData==NULL)
 	{
-		//messageBox(nFileName,"SprHeader is null");
+		//showAlert(nFileName,"SprHeader is null");
 		return NULL;
 	}
 
 	if  (!bSingleFrameLoad && pOffsTable==NULL)
 	{
-		//messageBox(nFileName,"OffsTable is null");
+		//showAlert(nFileName,"OffsTable is null");
 		return NULL;
 	}
 
@@ -397,7 +397,7 @@ Texture2D *Kgetinidata::getinidata_one(char *nFileName,int nFrameIndex,int *mCur
 
 	if (!bSingleFrameLoad && !pOffsTable)
 	{
-		//messageBox("m_pOffset is Error","m_pOffset");
+		//showAlert("m_pOffset is Error","m_pOffset");
 		return NULL;
 	}
 
@@ -429,7 +429,7 @@ Texture2D *Kgetinidata::getinidata_one(char *nFileName,int nFrameIndex,int *mCur
 	 decdata = (unsigned char*)malloc((size_t)decdatalen);
 	if (!decdata)
 	{
-		//messageBox("men Error","for");
+		//showAlert("men Error","for");
 		return NULL;
 	}
 
@@ -551,13 +551,13 @@ Texture2D *Kgetinidata::getinidata_new(char *nFileName,int nFrameIndex,int *mCur
 	pSprHeader = (SPRHEAD*)m_ImageStore.GetImage(nFileName,nfleddwid,nImagePosition,nFarmIndex,ISI_T_SPR,(void*&)pFrameData,(void*&)pOffsTable,bSingleFrameLoad,nSingFrameSize);
 	if (pSprHeader == NULL || pFrameData==NULL)
 	{
-		//messageBox(nFileName,"SprHeader is null");
+		//showAlert(nFileName,"SprHeader is null");
 		return NULL;
 	}
 
 	if  (!bSingleFrameLoad && pOffsTable==NULL)
 	{
-		//messageBox(nFileName,"OffsTable is null");
+		//showAlert(nFileName,"OffsTable is null");
 		return NULL;
 	}
 
@@ -632,7 +632,7 @@ Texture2D *Kgetinidata::getinidata_new(char *nFileName,int nFrameIndex,int *mCur
 
 	if (!bSingleFrameLoad && !pOffsTable)
 	{
-		//messageBox("m_pOffset is Error","m_pOffset");
+		//showAlert("m_pOffset is Error","m_pOffset");
 		break;
 	}
 
@@ -668,7 +668,7 @@ Texture2D *Kgetinidata::getinidata_new(char *nFileName,int nFrameIndex,int *mCur
 	 decdata = (unsigned char*)malloc((size_t)decdatalen);
 	if (!decdata)
 	{
-		//messageBox("men Error","for");
+		//showAlert("men Error","for");
 		break;
 	}
 

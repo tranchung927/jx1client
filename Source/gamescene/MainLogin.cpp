@@ -88,7 +88,7 @@ void MainLogin::mianLoginCallback(Object* pSender)
         strPas = password->getText();
         if (strAcc.length()>16 || strAcc.length()<=0 || strPas.length()>16 || strPas.length()<=0)
         {
-            messageBox("Sai tài khoản hoặc mật khẩu!","Cảnh báo");
+            showAlert("Sai tài khoản hoặc mật khẩu!","Cảnh báo");
             return;
         }
 
@@ -120,7 +120,7 @@ void MainLogin::mianLoginCallback(Object* pSender)
 
         if (spaceNum>0 || chineseNum >0 || other>0)
         { 	//system("pause");
-            messageBox("Invalid character,please check your name!\n Cannot contain special symbols such as chinese, spaces, etc.!","Warning");
+            showAlert("Invalid character,please check your name!\n Cannot contain special symbols such as chinese, spaces, etc.!","Warning");
             return;
         }
 
@@ -141,7 +141,7 @@ void MainLogin::mianLoginCallback(Object* pSender)
         {
             if  (m_ClientChoices.nServerRegionIndex <= 0)
             {
-                messageBox("Vui lòng chọn máy chủ đăng nhập", "Cảnh báo");
+                showAlert("Vui lòng chọn máy chủ đăng nhập", "Cảnh báo");
                 return;
             }
             //模拟帐号登陆
@@ -179,7 +179,7 @@ void MainLogin::mianLoginCallback(Object* pSender)
                 Director::getInstance()->replaceScene(MainMenu::create());
             }
             //Director::getInstance()->replaceScene(KSelPlayer::scene());
-            //messageBox("send suss","send suss");
+            //showAlert("send suss","send suss");
         }
     }
 
@@ -232,7 +232,7 @@ void MainLogin::AcceptNetMsg(void* pMsgData) //循环接受处理消息
 {
     if (pMsgData == NULL)  //数据包为空 则返回
         return;
-    //messageBox("回调成功","GetPackFromServer");
+    //showAlert("回调成功","GetPackFromServer");
     switch(m_Status)       //发送数据包标识变量
     {
         case LL_S_ACCOUNT_CONFIRMING:  //账号验证
@@ -276,7 +276,7 @@ void MainLogin::ProcessAccountLoginResponse(KLoginStructHead* pResponse)
                 m_Result = LL_R_INVALID_PROTOCOLVERSION;  //版本问题
                 //ReturnToIdle();//断开网络
                 nBVer.Clear();
-                messageBox("Phiên bản sai","Nhắc:");
+                showAlert("Phiên bản sai","Nhắc:");
                 return;
             }
             nBVer.GetDouble("CilentVer","ver",0.1,&mBver);  //补丁包版本号 GetDouble
@@ -309,7 +309,7 @@ void MainLogin::ProcessAccountLoginResponse(KLoginStructHead* pResponse)
             //预建立角色检测
             if (pInfo->ProtocolVersion!=KPROTOCOL_VERSION)
             {
-                messageBox("Phiên bản không tương thích!","Nhắc:");
+                showAlert("Phiên bản không tương thích!","Nhắc:");
                 m_Result = LL_R_INVALID_PROTOCOLVERSION;  //版本问题
                 return;
             }
@@ -327,33 +327,33 @@ void MainLogin::ProcessAccountLoginResponse(KLoginStructHead* pResponse)
                     case LOGIN_R_ACCOUNT_OR_PASSWORD_ERROR:  //密码错误
                         //eResult = LL_R_ACCOUNT_PWD_ERROR;
                         m_Status = LL_S_WAIT_INPUT_ACCOUNT;
-                        messageBox("Sai mật khẩu","Nhắc:");
+                        showAlert("Sai mật khẩu","Nhắc:");
                         break;
                     case LOGIN_R_ACCOUNT_EXIST:   //账号给锁定  --账号正在使用
                         //eResult = LL_R_ACCOUNT_LOCKED;
-                        messageBox("Tài khoản đang được sử dụng","Nhắc:");
+                        showAlert("Tài khoản đang được sử dụng","Nhắc:");
                         m_Status = LL_S_WAIT_INPUT_ACCOUNT;
                         break;
                     case LOGIN_R_FREEZE:  // 账号被冻结
                         //eResult = LL_R_ACCOUNT_FREEZE;
-                        messageBox("Tài khoản bị đóng băng","Nhắc:");
+                        showAlert("Tài khoản bị đóng băng","Nhắc:");
                         m_Status = LL_S_WAIT_INPUT_ACCOUNT;
                         break;
                     case LOGIN_R_INVALID_PROTOCOLVERSION: // 版本不兼容
                         //eResult = LL_R_INVALID_PROTOCOLVERSION
-                        messageBox("Phiên bản không tương thích", "Nhắc:");
+                        showAlert("Phiên bản không tương thích", "Nhắc:");
                         break;
                     case LOGIN_R_FAILED:  //链接失败
                         //eResult = LL_R_CONNECT_SERV_BUSY; // 提示服务器忙
-                        messageBox("Kết nối không thành công","Nhắc:");
+                        showAlert("Kết nối không thành công","Nhắc:");
                         break;
                     case LOGIN_R_TIMEOUT: // 账号使用时间到
                         //eResult = LL_R_ACCOUNT_NOT_ENOUGH_POINT;
-                        messageBox("Tài khoản đã hết hạn","Nhắc:");
+                        showAlert("Tài khoản đã hết hạn","Nhắc:");
                         m_Status = LL_S_WAIT_INPUT_ACCOUNT;
                         break;
                     default:
-                        messageBox("Kết nối không thành công","Nhắc:");
+                        showAlert("Kết nối không thành công","Nhắc:");
                         break;
                 }
 

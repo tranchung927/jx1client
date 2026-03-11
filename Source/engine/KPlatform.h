@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <stdint.h>
 #include <stddef.h>
-
+#include <cassert>
 #include "cocos2d.h"
 #pragma warning (disable: 4005)
 USING_NS_AX;
@@ -130,6 +130,11 @@ typedef struct tagRECT
     int right;   // Biên phải.
     int bottom;  // Biên dưới.
 } RECT;
+
+#ifndef _ASSERT
+#define _ASSERT(x) assert(x)
+#endif
+
 //#define MAKELONG(a, b) ((int)(((unsigned short)(((DWORD_PTR)(a)) & 0xffff)) | ((unsigned long)((unsigned short)(((DWORD_PTR)(b)) & 0xffff))) << 16))
 //#define LOWORD(l)      ((unsigned short)(((DWORD_PTR)(l)) & 0xffff))
 //#define HIWORD(l)      ((unsigned short)((((DWORD_PTR)(l)) >> 16) & 0xffff))
@@ -167,6 +172,7 @@ typedef uint32_t* LPDWORD;
 #define LPCSTR const char*
 #define PVOID  void*
 #define LPVOID PVOID
+#define LPCVOID const void*
 #define LPSTR  char*
 #define LONG   int32_t
 #define LPBYTE PBYTE
@@ -350,7 +356,7 @@ struct XPackFileHeader
 // Thông tin chỉ mục của từng file con trong pack.
 struct XPackIndexInfo
 {
-    unsigned int uId;             // ID của file con.
+    DWORD uId;             // ID của file con.
     unsigned int uOffset;         // Offset của file con trong pack.
     int lSize;                    // Kích thước gốc của file con.
     int lCompressSizeFlag;        // Kích thước nén và cờ phương thức nén.
@@ -410,10 +416,34 @@ enum XPACK_METHOD
 //--------------------------------------------------
 struct XPackElemFileRef
 {
-    unsigned int uId;   // ID file trong PAK.
-    int nPackIndex;     // Chỉ số gói PAK.
-    int nElemIndex;     // Chỉ số phần tử trong gói.
-    int nCacheIndex;    // Chỉ số cache.
-    int nOffset;        // Offset hiện tại khi đọc file.
-    int nSize;          // Kích thước file.
+    DWORD uId;   // ID file trong PAK.
+    INT nPackIndex;     // Chỉ số gói PAK.
+    INT nElemIndex;     // Chỉ số phần tử trong gói.
+    INT nCacheIndex;    // Chỉ số cache.
+    INT nOffset;        // Offset hiện tại khi đọc file.
+    LONG nSize;          // Kích thước file.
 };
+
+inline void g_MessageBox(const char* fmt, ...)
+{
+    std::va_list args;
+    va_start(args, fmt);
+
+    std::fprintf(stderr, "[JX MESSAGE] ");
+    std::vfprintf(stderr, fmt, args);
+    std::fprintf(stderr, "\n");
+
+    va_end(args);
+}
+
+inline void g_DebugLog(const char* fmt, ...)
+{
+    std::va_list args;
+    va_start(args, fmt);
+
+    std::fprintf(stderr, "[JX DEBUG] ");
+    std::vfprintf(stderr, fmt, args);
+    std::fprintf(stderr, "\n");
+
+    va_end(args);
+}

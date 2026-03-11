@@ -1517,13 +1517,13 @@ void KPlayer::AcceptTeamMember(unsigned long dwNpcID)
     // �ж�״̬ ��ȱ�ٶ�npc���鿪��״̬�ļ�� not end��
     if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure != TEAM_CAPTAIN)
     {
-        // messageBox("���Ƕӳ�","error");
+        // showAlert("���Ƕӳ�","error");
         ApplySelfTeamInfo();
         return;
     }
     if (dwNpcID == 0)
     {
-        // messageBox("dwNpcID = 0","ͬ�����");
+        // showAlert("dwNpcID = 0","ͬ�����");
         return;
     }
 
@@ -1544,7 +1544,7 @@ void KPlayer::AcceptTeamMember(unsigned long dwNpcID)
     // char msg[64];
     /*int  nindex = NpcSet.SearchID(dwNpcID);
     if  (nindex>0)
-       messageBox(Npc[nindex].Name,"ͬ�����");*/
+       showAlert(Npc[nindex].Name,"ͬ�����");*/
     // �������������
     PLAYER_ACCEPT_TEAM_MEMBER sAcceptTeam;
     sAcceptTeam.ProtocolType = c2s_teamacceptmember;
@@ -1741,7 +1741,7 @@ int KPlayer::ApplyUseItem(int nItemID, ItemPos SrcPos)
         sEat.m_btPlace    = SrcPos.nPlace;
         sEat.m_btX        = SrcPos.nX;
         sEat.m_btY        = SrcPos.nY;
-        // messageBox("ʹ����Ʒ","��ʾ:");
+        // showAlert("ʹ����Ʒ","��ʾ:");
         if (g_pClient)
             g_pClient->SendPackToServer(&sEat, sizeof(PLAYER_EAT_ITEM_COMMAND));
     }
@@ -3326,7 +3326,7 @@ void KPlayer::OnScriptAction(PLAYER_SCRIPTACTION_SYNC* pMsg)
 
     char szString[1024] = {0};
     ZeroMemory(szString, sizeof(szString));
-    // messageBox("�򿪶Ի���","�򿪶Ի���...");
+    // showAlert("�򿪶Ի���","�򿪶Ի���...");
     switch (pScriptAction->m_nOperateType)
     {
     case SCRIPTACTION_UISHOW:
@@ -4077,12 +4077,12 @@ void KPlayer::s2cSetExp(int nExp)
         sMsg.byParamSize   = 0;
 #ifdef WIN32
         sMsg.nMsgLen = TEncodeText(sMsg.szMessage, strlen(sMsg.szMessage));
-        // messageBox(sMsg.szMessage,"���Ӿ���");
+        // showAlert(sMsg.szMessage,"���Ӿ���");
 #else
         char msg[256];
         sprintf(sMsg.szMessage, "%s", UTEXT(sMsg.szMessage, 1).c_str());
         sMsg.nMsgLen = TEncodeText(sMsg.szMessage, strlen(sMsg.szMessage));
-        // messageBox(msg,"���Ӿ���");
+        // showAlert(msg,"���Ӿ���");
 #endif
         CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (uintptr_t)&sMsg, 0);
     }
@@ -4096,7 +4096,7 @@ void KPlayer::s2cSetExp(int nExp)
         sMsg.byParamSize   = 0;
         sMsg.nMsgLen       = TEncodeText_(sMsg.szMessage, strlen(sMsg.szMessage));
         CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (uintptr_t)&sMsg, 0);
-        // messageBox("���پ���","���پ���");
+        // showAlert("���پ���","���پ���");
     }
 
     this->m_nExp = nExp;  // ���鸳ֵ
@@ -4269,7 +4269,7 @@ void KPlayer::s2cTradeDecision(BYTE* pMsg)
 void KPlayer::SyncCurPlayer(BYTE* pMsg)
 {                            // ����
     m_ItemList.RemoveAll();  // ԭ���е�
-    // messageBox("����ͬ������","SyncCurPlayer");
+    // showAlert("����ͬ������","SyncCurPlayer");
     CURPLAYER_SYNC* PlaySync = (CURPLAYER_SYNC*)pMsg;
 
     this->m_nIndex = NpcSet.SearchID(PlaySync->m_dwID);  // NPC������
@@ -4277,7 +4277,7 @@ void KPlayer::SyncCurPlayer(BYTE* pMsg)
     if (this->m_nIndex <= 0)
     {
         // sprintf(mgs,"���ݴ���.����:%d,dwid:%u,�ȼ�:%d",this->m_nIndex,PlaySync->m_dwID,PlaySync->m_btLevel);
-        // messageBox(mgs,"SyncCurPlayer");
+        // showAlert(mgs,"SyncCurPlayer");
         return;
     }
 
@@ -4321,7 +4321,7 @@ void KPlayer::SyncCurPlayer(BYTE* pMsg)
     // char mgs[128]={0};
     // sprintf(mgs,"A����:%s
     // ����:%d,dwid:%u,�ȼ�:%d",Npc[m_nIndex].Name,this->m_nIndex,PlaySync->m_dwID,PlaySync->m_btLevel);
-    // messageBox(mgs,"SyncCurPlayer");
+    // showAlert(mgs,"SyncCurPlayer");
     m_ItemList.Init(CLIENT_PLAYER_INDEX);
     m_ItemList.SetClient(PlaySync->m_nMoney1, PlaySync->m_nMoney2, 0);
     m_ItemList.SetServer(PlaySync->m_nXu);
@@ -4367,7 +4367,7 @@ void KPlayer::SyncCurPlayer(BYTE* pMsg)
     // char mgs[128]={0};
     //	sprintf(mgs,"����:%s
     // ����:%d,dwid:%u,�ȼ�:%d",Npc[m_nIndex].Name,this->m_nIndex,PlaySync->m_dwID,PlaySync->m_btLevel);
-    // messageBox(mgs,"SyncCurPlayer");
+    // showAlert(mgs,"SyncCurPlayer");
 }
 
 int KPlayer::CheckTrading()
@@ -4586,7 +4586,7 @@ void KPlayer::GetEchoDamage(int* nMin, int* nMax, int nType)
     if (!pOrdinSkill)
         return;
 
-    // messageBox(pOrdinSkill->GetSkillName(),"setleftskill");
+    // showAlert(pOrdinSkill->GetSkillName(),"setleftskill");
     switch (pOrdinSkill->GetSkillStyle())
     {
     case SKILL_SS_Missles:  //	�ӵ���		���������ڷ����ӵ���

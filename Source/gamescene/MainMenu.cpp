@@ -11,6 +11,7 @@
 #include "gameui/KuiAccreg.h"
 #include "SelServer.h"
 #include "engine/dataChecksum.h"
+#include "audio/AudioEngine.h"
 
 extern iCoreShell * g_pCoreShell;
 extern KImageStore2 m_ImageStore;
@@ -22,10 +23,15 @@ bool MainMenu::init()
 {
     std::string m_WritablePath = ax::FileUtils::getInstance()->getWritablePath();
     if  (GetRandomNumber(1,10)>=5)
-        m_WritablePath += "music/start.mp3";
+        m_WritablePath += "music/start_1.mp3";
     else
-        m_WritablePath += "music/start.wav";
+        m_WritablePath += "music/start_2.mp3";
 
+    // Nếu bộ phát âm thanh chưa được khởi tạo thì khởi tạo tại đây
+    if (!__pSound) {
+        __pSound = new AudioEngine();
+        CCLOG("[MainMenu] __pSound was null -> created new AudioEngine");
+    }
     if  (__pSound)
         __pSound->play2d(m_WritablePath.c_str(),false);
     if (!Scene::init())
@@ -120,11 +126,11 @@ void MainMenu::mianLoginCallback(Object* pSender)
             char nTempChar[128];
             ZeroMemory(nTempChar,sizeof(nTempChar));
             _mver.GetString("CilentVer","mobileinfo","Vui lòng cấp nhật bản mới nhất.",nTempChar,sizeof(nTempChar));
-            messageBox(UTEXT(nTempChar,1).c_str(),"Chú ý:");
+            showAlert(UTEXT(nTempChar,1).c_str(),"Chú ý:");
             _mver.Clear();
         }
     }
     else
-        messageBox("Vui lòng cấp nhật bản mới nhất.","Chú ý:");
+        showAlert("Vui lòng cấp nhật bản mới nhất.","Chú ý:");
     //Director::getInstance()->replaceScene(Klogin::scene());
 }

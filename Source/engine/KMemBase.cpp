@@ -6,380 +6,216 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Memory base functions
 //---------------------------------------------------------------------------
-//#include "KWin32.h"
-//#include "KDebug.h"
-#include "KPlatform.h"
+
 #include "KNode.h"
 #include "KList.h"
 #include "KMemBase.h"
-#include <string.h>
+#include <cstring>
+#include <mutex>
+#include <cstdio>
+
 //---------------------------------------------------------------------------
+// Memory tracking node
+//---------------------------------------------------------------------------
+
 class KMemNode : public KNode
 {
 public:
-	unsigned long	m_dwMemSize;//�ڴ��С
-	unsigned long	m_dwMemSign;//�ڴ��־
+    DWORD m_dwMemSize;
+    DWORD m_dwMemSign;
 };
+
 //---------------------------------------------------------------------------
+
 class KMemList : public KList
 {
 public:
-	~KMemList()
-	{
-		KMemNode* pNode = (KMemNode*)GetHead();
-		while (pNode)
-		{
-//			g_DebugLog("KMemList::Leak Detected, Size = %d", pNode->m_dwMemSize);
-			pNode = (KMemNode*)pNode->GetNext();
-		}
-	};
-	void ShowUsage()
-	{//��ʾ�Ѿ�ʹ�õ��ڴ���С
-		KMemNode* pNode = (KMemNode*)GetHead();
-		unsigned long dwMemSize = 0;
-		while (pNode)
-		{
-			dwMemSize += pNode->m_dwMemSize;
-			pNode = (KMemNode*)pNode->GetNext();
-		}
-//		g_DebugLog("Memory Usage Size = %d KB", dwMemSize / 1024);
-	}
+    ~KMemList()
+    {
+        KMemNode* pNode = (KMemNode*)GetHead();
+        while (pNode)
+        {
+            std::fprintf(stderr, "KMemList::Leak Detected, Size = %u\n", pNode->m_dwMemSize);
+            pNode = (KMemNode*)pNode->GetNext();
+        }
+    }
 
-	//---------------------------------------------------------------------------
-	// ����:	g_MemFree
-	// ����:	�ͷ��ڴ�
-	// ����:	lpMem		Ҫ�ͷŵ��ڴ�ָ��
-	// ����:	void
-	//---------------------------------------------------------------------------
-	void g_MemFreeBySign(unsigned long MemSign)
-	{
-		//	HANDLE hHeap = GetProcessHeap();
-		KMemNode* pNode = (KMemNode*)GetHead();
-		unsigned long dwMemSize = 0;
-		while (pNode)
-		{
-			//dwMemSize += pNode->m_dwMemSize;
-			if (pNode->m_dwMemSign==MemSign)
-			{
-				pNode->m_dwMemSize=0;
-				pNode->Remove();
+    void ShowUsage()
+    {
+        KMemNode* pNode = (KMemNode*)GetHead();
+        DWORD total = 0;
 
-				delete [] pNode;
-				pNode=NULL;
-				break;
-			}
-			pNode = (KMemNode*)pNode->GetNext();
-		}
-	}
+        while (pNode)
+        {
+            total += pNode->m_dwMemSize;
+            pNode = (KMemNode*)pNode->GetNext();
+        }
+
+        std::fprintf(stderr, "Memory Usage Size = %u KB\n", total / 1024);
+    }
 };
+
+//---------------------------------------------------------------------------
+
 static KMemList m_MemList;
-//---------------------------------------------------------------------------
+static std::mutex g_mem_mutex;
+
 #define MEMSIGN 1234567890
+
 //---------------------------------------------------------------------------
-// ����:	g_MemInfo
-// ����:	Memory Infomation
-// ����:	void
-// ����:	void
-//---------------------------------------------------------------------------
+
 void g_MemInfo()
 {
-//	MEMORYSTATUS stat;
-
-//	GlobalMemoryStatus(&stat);
-
-//	g_DebugLog("Total Physical Memory = %d MB", stat.dwTotalPhys >> 20);
-//	g_DebugLog("Total Virtual Memory = %d MB", stat.dwTotalVirtual >> 20);
-//	g_DebugLog("%d percent of memory is in use.", stat.dwMemoryLoad);
+    // Reserved for future platform memory stats
 }
+
 //---------------------------------------------------------------------------
-// ����:	g_MemAlloc
-// ����:	�����ڴ�
-// ����:	dwSize		�ڴ���С
-// ����:	lpMem (lpMem = NULL ��ʾ����ʧ��)
-//---------------------------------------------------------------------------
-void * g_MemAlloc(unsigned long dwSize)
+
+LPVOID g_MemAlloc(DWORD dwSize)
 {
-//	HANDLE hHeap = GetProcessHeap();
-	unsigned char * lpMem = NULL;
-	unsigned long  dwHeapSize = dwSize + sizeof(KMemNode);	  //�ڴ���ͷ�ṹ
+    if (dwSize == 0)
+        return nullptr;
 
-//	lpMem = (PBYTE)HeapAlloc(hHeap, 0, dwHeapSize);
-	lpMem = (unsigned char *)new char[dwHeapSize];
-	if (NULL == lpMem)
-	{
-//		g_MessageBox("g_MemAlloc() Failed, Size = %d", dwSize);
-		return NULL;
-	}
+    DWORD totalSize = dwSize + sizeof(KMemNode);
 
-	KMemNode* pNode = (KMemNode*)lpMem;
-	pNode->m_pPrev = NULL;
-	pNode->m_pNext = NULL;
-	pNode->m_dwMemSize = dwSize;
-	pNode->m_dwMemSign = MEMSIGN; //�ڴ��ʾ
-	m_MemList.AddHead(pNode);     //��ǰ������Ѿ������ڴ��Ľڵ�
+    auto* raw = new(std::nothrow) unsigned char[totalSize];
 
-	return (lpMem + sizeof(KMemNode));
-//	return 0;
+    if (!raw)
+    {
+        std::fprintf(stderr, "g_MemAlloc() Failed, Size = %u\n", dwSize);
+        return nullptr;
+    }
+
+    auto* node = reinterpret_cast<KMemNode*>(raw);
+
+    node->m_pPrev = nullptr;
+    node->m_pNext = nullptr;
+    node->m_dwMemSize = dwSize;
+    node->m_dwMemSign = MEMSIGN;
+
+    {
+        std::lock_guard<std::mutex> lock(g_mem_mutex);
+        m_MemList.AddHead(node);
+    }
+
+    return raw + sizeof(KMemNode);
 }
 
 //---------------------------------------------------------------------------
-// ����:	g_MemFree
-// ����:	�ͷ��ڴ�
-// ����:	lpMem		Ҫ�ͷŵ��ڴ����ָ��
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemFreeSec(void * lpMem)
+
+void g_MemFree(LPVOID lpMem)
 {
-	//	HANDLE hHeap = GetProcessHeap();
-	if (lpMem == NULL)
-		return;
-	//lpMem = (PBYTE)lpMem - sizeof(KMemNode);
+    if (!lpMem)
+        return;
 
-	KMemNode* pNode = (KMemNode *)lpMem;
-	if (pNode->m_dwMemSign != MEMSIGN)
-	{
-//		g_MessageBox("g_MemFree() Failed, Size = %d", pNode->m_dwMemSize);
-		return;
-	}
-	pNode->m_dwMemSize=0;
-	pNode->Remove();
-	//	HeapFree(hHeap, 0, lpMem);
-	delete [] lpMem;
-	lpMem=NULL;
-}
+    auto* raw = reinterpret_cast<unsigned char*>(lpMem) - sizeof(KMemNode);
+    auto* node = reinterpret_cast<KMemNode*>(raw);
 
-void g_MemFreeSign(unsigned long nSign)
-{
-	  m_MemList.g_MemFreeBySign(nSign);   //ɾ�������ʶ�Ľڵ� �ڴ�
+    if (node->m_dwMemSign != MEMSIGN)
+    {
+        std::fprintf(stderr, "g_MemFree() Failed, Corrupted Memory Block\n");
+        return;
+    }
 
-	  //(KMemNode*)m_MemList.GetHead();
+    {
+        std::lock_guard<std::mutex> lock(g_mem_mutex);
+        node->Remove();
+    }
 
-}
-//---------------------------------------------------------------------------
-// ����:	g_MemFree
-// ����:	�ͷ��ڴ�
-// ����:	lpMem		Ҫ�ͷŵ��ڴ�ָ��
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemFree(void *lpMem)
-{
-//	HANDLE hHeap = GetProcessHeap();
-	if (lpMem == NULL)
-		return;
-	lpMem = (unsigned char *)lpMem - sizeof(KMemNode);
-	KMemNode* pNode = (KMemNode *)lpMem;
-	if (pNode->m_dwMemSign != MEMSIGN)
-	{
-//		g_MessageBox("g_MemFree() Failed, Size = %d", pNode->m_dwMemSize);
-		return;
-	}
-	pNode->m_dwMemSize=0;
-	pNode->Remove();
-//	HeapFree(hHeap, 0, lpMem);
-	delete[] lpMem;
-	lpMem=NULL;
+    delete[] raw;
 }
 
+//---------------------------------------------------------------------------
+
+void g_MemCopy(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
+{
+    if (!lpDest || !lpSrc || dwLen == 0)
+        return;
+
+    std::memcpy(lpDest, lpSrc, dwLen);
+}
 
 //---------------------------------------------------------------------------
-// ����:	MemoryCopy
-// ����:	�ڴ濽��
-// ����:	lpDest	:	Ŀ���ڴ��
-//			lpSrc	:	Դ�ڴ��
-//			dwLen	:	��������
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemCopy(void * lpDest, void * lpSrc, unsigned long dwLen)
-{
-     memcpy(lpDest, lpSrc, dwLen);
-}
-//---------------------------------------------------------------------------
-// ����:	MemoryCopyMmx
-// ����:	�ڴ濽����MMX�汾��
-// ����:	lpDest	:	Ŀ���ڴ��
-//			lpSrc	:	Դ�ڴ��
-//			dwLen	:	��������
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemCopyMmx(void * lpDest,void * lpSrc, unsigned long dwLen)
-{
-     memcpy(lpDest, lpSrc, dwLen);
-}
-//---------------------------------------------------------------------------
-// ����:	MemoryComp
-// ����:	�ڴ�Ƚ�
-// ����:	lpDest	:	�ڴ��1
-//			lpSrc	:	�ڴ��2
-//			dwLen	:	�Ƚϳ���
-// ����:	TRUE	:	��ͬ
-//			FALSE	:	��ͬ
-//---------------------------------------------------------------------------
-bool g_MemComp(void * lpDest, void * lpSrc, unsigned long dwLen)
-{
-/*#ifdef WIN32
-	__asm
-	{
-		mov		edi, lpDest
-		mov		esi, lpSrc
-		mov		ecx, dwLen
-		mov     ebx, ecx
-		shr     ecx, 2
-		rep     cmpsd
-		jne		loc_not_equal
-		mov     ecx, ebx
-		and     ecx, 3
-		rep     cmpsb
-		jne		loc_not_equal
-	};
-	return TRUE;
 
-loc_not_equal:
+void g_MemCopyMmx(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
+{
+    // Modern compilers already optimize memcpy
+    g_MemCopy(lpDest, lpSrc, dwLen);
+}
 
-	return FALSE;
-#else*/
-     return (0 == memcmp(lpDest, lpSrc, dwLen));
-//#endif
-}
 //---------------------------------------------------------------------------
-// ����:	MemoryFill
-// ����:	�ڴ����
-// ����:	lpDest	:	�ڴ��ַ
-//			dwLen	:	�ڴ泤��
-//			byFill	:	����ֽ�
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemFill(void *  lpDest, unsigned long  dwLen, unsigned char byFill)
+
+BOOL g_MemComp(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
 {
-/*#ifdef WIN32
-	__asm
-	{
-		mov		edi, lpDest
-		mov		ecx, dwLen
-		mov		al, byFill
-		mov		ah, al
-		mov		bx, ax
-		shl		eax, 16
-		mov		ax, bx
-		mov		ebx, ecx
-		shr		ecx, 2
-		rep     stosd
-		mov     ecx, ebx
-		and		ecx, 3
-		rep     stosb
-	}
-#else*/
-     memset(lpDest, byFill, dwLen);
-//#endif
+    if (!lpDest || !lpSrc)
+        return FALSE;
+
+    return (std::memcmp(lpDest, lpSrc, dwLen) == 0) ? TRUE : FALSE;
 }
+
 //---------------------------------------------------------------------------
-// ����:	MemoryFill
-// ����:	�ڴ����
-// ����:	lpDest	:	�ڴ��ַ
-//			dwLen	:	�ڴ泤��
-//			wFill	:	�����
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemFill(void * lpDest, unsigned long dwLen, unsigned short  wFill)
+
+void g_MemFill(PVOID lpDest, DWORD dwLen, BYTE byFill)
 {
-/*#ifdef WIN32
-	__asm
-	{
-		mov		edi, lpDest
-		mov		ecx, dwLen
-		mov		ax, wFill
-		mov		bx, ax
-		shl		eax, 16
-		mov		ax, bx
-		mov		ebx, ecx
-		shr		ecx, 1
-		rep     stosd
-		mov     ecx, ebx
-		and		ecx, 1
-		rep     stosw
-	}
-#else*/
-     memset(lpDest, wFill & 0xff, dwLen);
-//#endif
+    if (!lpDest || dwLen == 0)
+        return;
+
+    std::memset(lpDest, byFill, dwLen);
 }
+
 //---------------------------------------------------------------------------
-// ����:	MemoryFill
-// ����:	�ڴ����
-// ����:	lpDest	:	�ڴ��ַ
-//			dwLen	:	�ڴ泤��
-//			dwFill	:	�����
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemFill(void * lpDest, unsigned long dwLen, unsigned long dwFill)
+
+void g_MemFill(PVOID lpDest, DWORD dwLen, WORD wFill)
 {
-/*#ifdef WIN32
-	__asm
-	{
-		mov		edi, lpDest
-		mov		ecx, dwLen
-		mov		eax, dwFill
-		rep     stosd
-	}
-#else*/
-     memset(lpDest, dwFill & 0xff, dwLen);
-//#endif
+    if (!lpDest)
+        return;
+
+    WORD* ptr = reinterpret_cast<WORD*>(lpDest);
+
+    DWORD count = dwLen / sizeof(WORD);
+
+    for (DWORD i = 0; i < count; ++i)
+        ptr[i] = wFill;
 }
+
 //---------------------------------------------------------------------------
-// ����:	MemoryZero
-// ����:	�ڴ�����
-// ����:	lpDest	:	�ڴ��ַ
-//			dwLen	:	�ڴ泤��
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemZero(void * lpDest,  unsigned long dwLen)
+
+void g_MemFill(PVOID lpDest, DWORD dwLen, DWORD dwFill)
 {
-/*#ifdef WIN32
-	__asm
-	{
-		mov		ecx, dwLen
-		mov		edi, lpDest
-		xor     eax, eax
-		mov		ebx, ecx
-		shr		ecx, 2
-		rep     stosd
-		mov     ecx, ebx
-		and		ecx, 3
-		rep     stosb
-	}
-#else*/
-     memset(lpDest, 0, dwLen);
-//#endif
+    if (!lpDest)
+        return;
+
+    DWORD* ptr = reinterpret_cast<DWORD*>(lpDest);
+
+    DWORD count = dwLen / sizeof(DWORD);
+
+    for (DWORD i = 0; i < count; ++i)
+        ptr[i] = dwFill;
 }
+
 //---------------------------------------------------------------------------
-// ����:	MemoryXore
-// ����:	�ڴ����
-// ����:	lpDest	:	�ڴ��ַ
-//			dwLen	:	�ڴ泤��
-//			dwXor	:	����ֽ�
-// ����:	void
-//---------------------------------------------------------------------------
-void g_MemXore(void * lpDest,  unsigned long dwLen,  unsigned long dwXor)
+
+void g_MemZero(PVOID lpDest, DWORD dwLen)
 {
-/*#ifdef WIN32
-	__asm
-	{
-		mov		edi, lpDest
-		mov		ecx, dwLen
-		mov		eax, dwXor
-		shr		ecx, 2
-		cmp		ecx, 0
-		jle		loc_xor_exit
-loc_xor_loop:
-		xor		[edi], eax
-		add		edi, 4
-		dec		ecx
-		jnz		loc_xor_loop
-loc_xor_exit:
-	}
-#else*/
-     unsigned long *ptr = (unsigned long *)lpDest;
-     while((int)dwLen > 0) {
-       *ptr++ ^= dwXor;
-       dwLen -= sizeof(unsigned long);
-     }
-//#endif
+    if (!lpDest || dwLen == 0)
+        return;
+
+    std::memset(lpDest, 0, dwLen);
 }
+
+//---------------------------------------------------------------------------
+
+void g_MemXore(PVOID lpDest, DWORD dwLen, DWORD dwXor)
+{
+    if (!lpDest)
+        return;
+
+    DWORD* ptr = reinterpret_cast<DWORD*>(lpDest);
+
+    DWORD count = dwLen / sizeof(DWORD);
+
+    for (DWORD i = 0; i < count; ++i)
+        ptr[i] ^= dwXor;
+}
+
+//---------------------------------------------------------------------------

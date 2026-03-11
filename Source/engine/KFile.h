@@ -1,42 +1,61 @@
 //---------------------------------------------------------------------------
 // Sword3 Engine (c) 1999-2000 by Kingsoft
 //
-// File:	KFile.h
-// Date:	2000.08.08
-// Code:	WangWei(Daphnis)
-// Desc:	Header File
+// File:   KFile.h
 //---------------------------------------------------------------------------
-#ifndef KFile_H
-#define KFile_H
-#include "cocos2d.h"
+#pragma once
 
-USING_NS_AX;
-//---------------------------------------------------------------------------
-#define SEEK_ERROR		0xFFFFFFFF
-//---------------------------------------------------------------------------
+#include <cstdint>
+#include <cstddef>
+#include <cstdio>
+
+#include "KPlatform.h"
+
+// Lớp bao bọc FILE* theo phong cách engine legacy.
+// Mục tiêu là giữ API cũ nhưng tương thích tốt hơn với C++ hiện đại.
+
+// Giá trị lỗi khi seek
+#define SEEK_ERROR 0xFFFFFFFFu
+
 class KFile
 {
 private:
-//#ifndef __linux
-//	HANDLE		m_hFile;	// File Handle
-//#else
-	FILE *		m_hFile;	// File Handle
-//#endif
-	unsigned int		m_dwLen;	// File Size
-	unsigned int		m_dwPos;	// File Pointer
+    FILE*        m_hFile;  // File Handle
+    DWORD        m_dwLen;  // Kích thước file
+    DWORD        m_dwPos;  // Vị trí con trỏ file
+
 public:
-	KFile();
-	~KFile();
-	bool		Open(char *FileName);
-	bool		Create(const char *FileName);
-	bool		Append(char * FileName);
-	void		Close();
-	unsigned int Read(void *lpBuffer,unsigned int dwReadBytes);
-	unsigned int Write(void * lpBuffer, unsigned int dwWriteBytes);
-	unsigned int Seek(int lDistance, unsigned int dwMoveMethod);
-	unsigned int Tell();
-	unsigned int Size();
-	FILE * getFilePtr(){return m_hFile;};
+    KFile();
+    ~KFile();
+
+    // Mở file hiện có để đọc.
+    BOOL Open(LPCSTR FileName);
+
+    // Tạo file mới hoặc ghi đè file hiện có.
+    BOOL Create(LPCSTR FileName);
+
+    // Mở file ở chế độ nối thêm dữ liệu vào cuối file.
+    BOOL Append(LPCSTR FileName);
+
+    // Đóng file
+    void Close();
+
+    // Đọc dữ liệu từ file vào bộ đệm đích.
+    DWORD Read(LPVOID lpBuffer, DWORD dwReadBytes);
+
+    // Ghi dữ liệu từ bộ đệm nguồn ra file.
+    DWORD Write(LPCVOID lpBuffer, DWORD dwWriteBytes);
+
+    // Di chuyển vị trí con trỏ file theo kiểu seek của C/Win32.
+    DWORD Seek(LONG lDistance, DWORD dwMoveMethod);
+
+    // Lấy vị trí hiện tại của con trỏ file.
+    DWORD Tell();
+
+    // Lấy kích thước file tính theo byte.
+    DWORD Size();
+
+    // Trả về FILE* nội bộ để tương thích với mã legacy.
+    FILE* getFilePtr() { return m_hFile; }
 };
 //---------------------------------------------------------------------------
-#endif

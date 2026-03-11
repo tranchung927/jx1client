@@ -6,29 +6,25 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef KMemClass_H
-#define KMemClass_H
-#include "cocos2d.h"
+#pragma once
 
-USING_NS_AX;
 #include "KPlatform.h"
 //---------------------------------------------------------------------------
 class KMemClass
 {
 private:
-	PVOID		m_lpMemPtr;
-	unsigned long		m_lpMemLen;
+    PVOID        m_lpMemPtr;
+    DWORD        m_lpMemLen;
 public:
-	KMemClass();
-	~KMemClass();
-	PVOID		Alloc(unsigned long dwSize);
-	void		Free();
-	void		Zero();
-	void		Fill(BYTE byFill);
-	void		Fill(unsigned short wFill);
-	void		Fill(unsigned long dwFill);
-	PVOID		GetMemPtr() { return m_lpMemPtr; };
-	unsigned long		GetMemLen() { return m_lpMemLen; };
+    KMemClass();
+    ~KMemClass();
+    PVOID       Alloc(DWORD dwSize);
+    void        Free();
+    void        Zero();
+    void        Fill(BYTE byFill);
+    void        Fill(WORD wFill);
+    void        Fill(DWORD dwFill);
+    PVOID       GetMemPtr() { return m_lpMemPtr; };
+    DWORD       GetMemLen() { return m_lpMemLen; };
 };
 //---------------------------------------------------------------------------
-#endif

@@ -11,6 +11,7 @@
 #include "KFilePath.h"
 #include "KPakList.h"
 #include "dataChecksum.h"
+#include "KPlatform.h"
 
 #include <cstdio>
 #include <cstdlib>

@@ -243,11 +243,11 @@ void KuiAutoPlay_vn::addDialogData()
 	sprintf(nFilePath,SCHEME_INI_AUTO_SETING,g_FileName2Id(Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].Name));
 	if (!nAutoNeiGua.Load(nFilePath,TRUE))
 	{
-		messageBox("Missing the config file","Warning");
+		showAlert("Missing the config file","Warning");
 	}
 	if (!nAutoSkill.Load(SCHEME_INI_AUTO_SKILL))
 	{
-		messageBox("Missing the config file of skill","Warning");
+		showAlert("Missing the config file of skill","Warning");
 	}
 
 	if (!nAutoZhuang.Load(SCHEME_INI_AUTO_ITEM))
@@ -256,7 +256,7 @@ void KuiAutoPlay_vn::addDialogData()
 		{//创建文件
 			if (!nAutoZhuang.Load(SCHEME_INI_AUTO_ITEM))
 			{
-				messageBox("Missing the config file of Attributes","Warning");
+				showAlert("Missing the config file of Attributes","Warning");
 			}
 		}
 	}
@@ -266,7 +266,7 @@ void KuiAutoPlay_vn::addDialogData()
 		{//创建文件
 			if (!nAutoDaiju.Load(SCHEME_INI_AUTO_DAOJU))
 			{
-				messageBox("Missing the config file of itemtool","Warning");
+				showAlert("Missing the config file of itemtool","Warning");
 			}
 		}
 	}
@@ -277,7 +277,7 @@ void KuiAutoPlay_vn::addDialogData()
 		{//创建文件
 			if (!nAutoUseItem.Load(SCHEME_INI_AUTO_USE))
 			{
-				messageBox("Missing the config file of tiems","Warning");
+				showAlert("Missing the config file of tiems","Warning");
 			}
 		}
 	}
@@ -2315,7 +2315,7 @@ void KuiAutoPlay_vn::valueChanged(Ref* sender/*, CCControlEvent controlEvent*/)
 				if  (Player[CLIENT_PLAYER_INDEX].m_Autoplay.nIsJiaoBen)
 					break;
 				g_pCoreShell->OperationRequest(GOI_AUTO_COMMAND,8,TRUE,TRUE);
-				//messageBox("开启","提示");
+				//showAlert("开启","提示");
 				//UIMessageBox2("提示:\n  1.请走动人物,录制你需要的挂机路线;完毕后,取消勾选<录制路线>=关闭录制!\n  2.挂机时需要选择<路线>模式\n  3.每次勾选<录制路线>都会清除原路线!\n  4.两点之间的距离需小于活动范围");
 			}
 			else
@@ -2329,7 +2329,7 @@ void KuiAutoPlay_vn::valueChanged(Ref* sender/*, CCControlEvent controlEvent*/)
 				if  (!Player[CLIENT_PLAYER_INDEX].m_Autoplay.nIsJiaoBen)
 					break;
 			   g_pCoreShell->OperationRequest(GOI_AUTO_COMMAND,8,FALSE,FALSE);
-			   //messageBox("关闭","提示");
+			   //showAlert("关闭","提示");
 			}
 		}
 		break;
@@ -2369,7 +2369,7 @@ void KuiAutoPlay_vn::checkBoxStateEvent(Ref* pSender, CheckBox::EventType type)
 			case 1001:
 				{
                     // checkBox_Auto_HP->setSelected(false);
-					// messageBox("Debug1","Debug2");
+					// showAlert("Debug1","Debug2");
 				}
 				break;
 			default:
@@ -2397,7 +2397,7 @@ void KuiAutoPlay_vn::selectedBoxStateEvent(Ref* pSender, CheckBox::EventType typ
 				{
 				case BOX_TAG_BASE:
 					{
-						messageBox("选中","选中");
+						showAlert("选中","选中");
 					}
 					break;
 				default:
@@ -2756,7 +2756,7 @@ void KuiAutoPlay_vn::oktouchEvent(Ref *pSender, ax::ui::AbstractCheckButton::Tou
 						//m_pSelf->nYpos=pInfo->nScenePos1/8;
 						if  (isbreak)
 						{
-							//messageBox("This Map don't run AutoPlay","Warning");
+							//showAlert("This Map don't run AutoPlay","Warning");
 							//break;
 						}
 
@@ -2771,7 +2771,7 @@ void KuiAutoPlay_vn::oktouchEvent(Ref *pSender, ax::ui::AbstractCheckButton::Tou
 						Widget *item = listView_Item->getItem(nTempSelItemIndex);
 						Button *button = static_cast<Button*>(item->getChildByName("TextButton"));
 						button->setTitleText(pstrEditBox_s->getText());
-						messageBox("Modify Successful","Warning");
+						showAlert("Modify Successful","Warning");
 					}
 				}
 				else if  (nTbtn->getTag()==4)
@@ -2781,7 +2781,7 @@ void KuiAutoPlay_vn::oktouchEvent(Ref *pSender, ax::ui::AbstractCheckButton::Tou
 						Widget *item = listView_tool->getItem(nTempSeltoolIndex);
 						Button *button = static_cast<Button*>(item->getChildByName("TextButton"));
 						button->setTitleText(pstrEditBox_d->getText());
-						messageBox("Modify Successful","Warning");
+						showAlert("Modify Successful","Warning");
 					}
 				}
 				else if  (nTbtn->getTag()==5)
@@ -2791,7 +2791,7 @@ void KuiAutoPlay_vn::oktouchEvent(Ref *pSender, ax::ui::AbstractCheckButton::Tou
 						Widget *item = listView_use->getItem(nTempSeluseIndex);
 						Button *button = static_cast<Button*>(item->getChildByName("TextButton"));
 						button->setTitleText(pstrEditBox_u->getText());
-						messageBox("Modify Successful","Warning");
+						showAlert("Modify Successful","Warning");
 					}
 				}
 				else if  (nTbtn->getTag()==2)
@@ -2998,7 +2998,7 @@ void KuiAutoPlay_vn::oktouchEvent(Ref *pSender, ax::ui::AbstractCheckButton::Tou
 						nTempTxt.Clear();
 					}
 
-					// messageBox("Save the auto Config successful..","Warning");
+					// showAlert("Save the auto Config successful..","Warning");
 
 				}
 			}
@@ -3236,7 +3236,7 @@ void KuiAutoPlay_vn::touchPageBtnEvent(Ref *pSender, ax::ui::AbstractCheckButton
 				if  (nTbtn->getTag()==AUTOBTN_PAGE_BASE)
 				{
 					//buttonCallBackFunc(NULL);
-					//messageBox(nTbtn->getTag().c_str(),"按下按钮");
+					//showAlert(nTbtn->getTag().c_str(),"按下按钮");
 				}
 			}
 		}
@@ -3869,5 +3869,5 @@ void KuiAutoPlay_vn::onDraw(const ax::Mat4 &transform, unsigned int flags)
 	}
 	//if (switchControl_team_y)
 	//   switchControl_team_y->setOn(false);
-	//messageBox("无限循环","draw");
+	//showAlert("无限循环","draw");
 }

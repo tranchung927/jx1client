@@ -39,7 +39,7 @@
 #include "KRelayProtocol.h"
 #include "KTongProtocol.h"
 #include "KInventory.h"
-#include "coreshell.h"
+#include "CoreShell.h"
 #include <vector>
 #include <cassert>
 #include "KNpcTemplate.h"

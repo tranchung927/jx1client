@@ -3672,7 +3672,8 @@ void KgameWorld::DrawPrimitives_minemap(int nposX, int nposY, RECT pRc, std::str
     float m_CurPicWidth = 0, m_CurPicHeight = 0;
     Texture2D* nPicTexture = NULL;
     char nSprFileKey[64]   = {0};
-    maxMapPicPath          = nJpaPath;
+    char* maxMapPicPath = new char[nJpaPath.size() + 1];
+    std::memcpy(maxMapPicPath, nJpaPath.c_str(), nJpaPath.size() + 1);
     maxMapRc               = pRc;
     char mjpgPath[256];
     sprintf(mjpgPath, "%s", nJpaPath.c_str());
