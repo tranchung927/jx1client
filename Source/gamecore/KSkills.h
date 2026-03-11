@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #ifndef KSkillsH
 #define KSkillsH
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "KMissle.h"
 // #include "KWorldMsg.h"
 #include "KRUImage.h"

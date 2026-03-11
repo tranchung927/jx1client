@@ -1,6 +1,6 @@
 #ifndef KNpcSetH
 #define KNpcSetH
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "engine/KLinkArray.h"
 #include "KNpc.h"
 #include "GameDataDef.h"

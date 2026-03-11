@@ -11,7 +11,7 @@
 #include "cocos2d.h"
 
 USING_NS_AX;
-#include "KbugInfo.h"
+#include "KPlatform.h"
 //---------------------------------------------------------------------------
 void	g_MemInfo(void);
 void*	g_MemAlloc(unsigned long dwSize);

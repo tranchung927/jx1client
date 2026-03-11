@@ -14,7 +14,7 @@
 #include "cocos2d.h"
 USING_NS_AX;
 
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #ifdef WIN32
 #include <pthreadwin32.h>
 #else

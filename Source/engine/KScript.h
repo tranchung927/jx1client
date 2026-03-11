@@ -9,7 +9,7 @@
 #ifndef KScript_H
 #define KScript_H
 //---------------------------------------------------------------------------
-#include "KbugInfo.h"
+#include "KPlatform.h"
 
 class  KScript
 {

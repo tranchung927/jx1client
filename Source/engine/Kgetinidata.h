@@ -9,7 +9,7 @@
 #ifndef Kgetinidata_H
 #define Kgetinidata_H
 #include "cocos2d.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #include "ImageStore/KImageStore2.h"
 //#include "KPalette.h"
 USING_NS_AX;

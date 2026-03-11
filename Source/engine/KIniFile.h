@@ -6,12 +6,9 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef KIniFile_H
-#define KIniFile_H
+#pragma once
 //---------------------------------------------------------------------------
-#include "cocos2d.h"
-USING_NS_AX;
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #include "KMemStack.h"
 #include "KMemClass.h"
 
@@ -200,4 +197,3 @@ public:
 
 };
 //---------------------------------------------------------------------------
-#endif

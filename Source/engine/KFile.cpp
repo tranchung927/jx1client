@@ -9,7 +9,7 @@
 // #include "KWin32.h"
 #include "KFilePath.h"
 #include "KFile.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 //---------------------------------------------------------------------------
 // ����:	KFile
 // ����:	���캯��

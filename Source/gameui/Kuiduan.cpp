@@ -1,6 +1,6 @@
 //�а�ť�ġ������롡�Ի���
 //
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "gamecore/KCore.h"
 #include "engine/CXmlStream.h"
 #include "Kuiduan.h"

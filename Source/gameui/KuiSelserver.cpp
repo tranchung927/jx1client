@@ -1,7 +1,7 @@
 // ***************************************************************************************
 // Chỉnh sửa lại bởi duccom0123 07/09/2024 6:42:22 CH
 // ***************************************************************************************
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "gamecore/KCore.h"
 #include "KuiSelserver.h"
 #include "Klogin_f.h"

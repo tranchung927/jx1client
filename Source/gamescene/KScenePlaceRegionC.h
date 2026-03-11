@@ -8,7 +8,7 @@
 
 #ifndef KSCENEPLACEREGIONC_H_HEADER_INCLUDED_C22EB91D
 #define KSCENEPLACEREGIONC_H_HEADER_INCLUDED_C22EB91D
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "SceneDataDef.h"
 #include "gamecore/KRegion.h"
 #include "KIpotLeaf.h"

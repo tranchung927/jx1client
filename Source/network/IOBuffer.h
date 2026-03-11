@@ -14,7 +14,7 @@
  * Identifier was truncated to '255' characters
  * in the debug information
  */
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #pragma warning(disable : 4786)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <winsock2.h>

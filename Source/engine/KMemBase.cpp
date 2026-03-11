@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 //#include "KWin32.h"
 //#include "KDebug.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #include "KNode.h"
 #include "KList.h"
 #include "KMemBase.h"

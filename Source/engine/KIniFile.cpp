@@ -1155,8 +1155,6 @@ void KIniFile::WriteStruct(
 		lpBuff++;
 		lpByte++;
 	}
-
-	//KstrFile::_strupr(Buffer);//g_StrUpper  ת��д
 	SetKeyValue(lpSection, lpKeyName, Buffer);
 }
 //---------------------------------------------------------------------------

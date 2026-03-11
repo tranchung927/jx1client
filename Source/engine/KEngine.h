@@ -10,7 +10,7 @@
 #define KEngine_H
 #include "cocos2d.h"
 #include "KGbktoUtf8.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #include "KLuaScript.h"
 //#include "KPalette.h"
 #include "KList.h"

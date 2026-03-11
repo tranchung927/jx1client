@@ -9,7 +9,7 @@
 #ifndef __INCLUDE_CLIENTSTAGE_H__
 #define __INCLUDE_CLIENTSTAGE_H__
 #pragma once
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "SocketClient.h"
 //#include "tstring.h"
 //#include "Event.h"

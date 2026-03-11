@@ -19,7 +19,7 @@
 #include <winsock2.h>
 #endif
 
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include <string>
 #include "cocos2d.h"
 #ifdef WIN32

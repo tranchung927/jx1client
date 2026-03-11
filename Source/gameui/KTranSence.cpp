@@ -1,4 +1,4 @@
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "gamecore/KCore.h"
 #include "KTranSence.h"
 #include "Klogin_f.h"

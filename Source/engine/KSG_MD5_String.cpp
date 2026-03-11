@@ -8,7 +8,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #include "md5.h"
 #include "KSG_MD5_String.h"
 #include <string.h>

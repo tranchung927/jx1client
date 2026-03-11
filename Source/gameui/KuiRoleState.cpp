@@ -1,4 +1,4 @@
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "gamecore/KCore.h"
 #include "gamecore/KPlayer.h"
 #include "engine/CXmlStream.h"

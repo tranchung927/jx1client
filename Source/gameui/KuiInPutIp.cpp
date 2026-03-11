@@ -9,7 +9,7 @@
 #endif
 #include "network/Socket.h"
 
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "engine/CXmlStream.h"
 #include "KuiInPutIp.h"
 #include "Klogin_f.h"

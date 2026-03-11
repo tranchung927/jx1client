@@ -9,7 +9,7 @@
 #ifndef KPolygon_H
 #define KPolygon_H
 #include "cocos2d.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 USING_NS_AX;
 
 #define	defMaxVertex	8   //������

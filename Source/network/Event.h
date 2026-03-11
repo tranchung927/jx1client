@@ -10,7 +10,7 @@
 #define __INCLUDE_EVENT_H__
 #include "cocos2d.h"
 //stdio.h ���û�����ͷ�ļ� �����һЩ���� �������͵�xxx ��˼����û��������͵� ����
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 //#pragma once
 #    ifdef WIN32
 #        include <pthreadwin32.h>

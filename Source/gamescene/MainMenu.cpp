@@ -3,7 +3,7 @@
 //
 
 #include "MainMenu.h"
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "gamecore/KCore.h"
 #include "gameui/KuiSelserver.h"
 #include "engine/KIniFile.h"

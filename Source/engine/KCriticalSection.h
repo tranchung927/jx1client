@@ -13,7 +13,7 @@
 
 //#include "windows.h"
 #include "cocos2d.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 USING_NS_AX;
 class KCriticalSection
 {

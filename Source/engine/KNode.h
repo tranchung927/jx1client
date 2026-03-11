@@ -13,7 +13,7 @@
 
 USING_NS_AX;
 //#include "KDebug.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 #pragma warning(disable: 4275)
 #pragma warning(disable: 4251)
 

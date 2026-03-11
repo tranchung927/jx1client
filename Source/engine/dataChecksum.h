@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"
 USING_NS_AX;
-#include "KbugInfo.h"
+#include "KPlatform.h"
 
 #include "string.h"
 

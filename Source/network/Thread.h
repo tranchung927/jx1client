@@ -9,7 +9,7 @@
 #ifndef __INCLUDE_THREAD_H__
 #define __INCLUDE_THREAD_H__
 #include "cocos2d.h"
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 USING_NS_AX;
 #pragma once
 

@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 
 USING_NS_AX;
-#include "KbugInfo.h"
+#include "KPlatform.h"
 
 int KSG_StringGetInt(const char **ppcszString, int nDefaultValue);
 bool KSG_StringSkipSymbol(const char **ppcszString, int nSymbol);

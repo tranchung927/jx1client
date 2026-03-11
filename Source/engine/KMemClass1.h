@@ -2,7 +2,7 @@
 #define __KMEMCLASS1_H__
 
 #include "KEngine.h"
-#include "KbugInfo.h"
+#include "KPlatform.h"
 
  class  KMemClass1
 {

@@ -9,7 +9,7 @@
 #ifndef KSCENEPLACEC_H_HEADER_INCLUDED_C22D00B5
 #define KSCENEPLACEC_H_HEADER_INCLUDED_C22D00B5
 //#include "../../Represent/iRepresent/KRepresentUnit.h"
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "KScenePlaceRegionC.h"
 #include "SceneDataDef.h"
 #include "KIpoTree.h"

@@ -7,7 +7,7 @@
 // Desc:	Memory Stack Class
 //---------------------------------------------------------------------------
 
-//#include "KbugInfo.h"
+//#include "KPlatform.h"
 #include "KMemBase.h"
 #include "KMemStack.h"
 //---------------------------------------------------------------------------

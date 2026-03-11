@@ -55,7 +55,7 @@
 #include "AudioEngine.h"
 //stdio.h ���û�����ͷ�ļ� �����һЩ���� �������͵�xxx ��˼����û��������͵� ����
 
-#include "engine/KbugInfo.h"
+#include "engine/KPlatform.h"
 #include "engine/KEngine.h"
 #include "engine/KTimer.h"
 #include "engine/KGbktoUtf8.h"

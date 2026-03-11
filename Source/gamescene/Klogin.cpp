@@ -1,6 +1,6 @@
 //#include "Klogin.h"
 //#include "engine/KGbktoUtf8.h"
-//#include "engine/KbugInfo.h"
+//#include "engine/KPlatform.h"
 //#include "Klogin.h"
 //#include "engine/CXmlStream.h"
 //#include "engine/KIniFile.h"
